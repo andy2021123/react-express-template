@@ -1,0 +1,97 @@
+services:
+  development-client:
+    container_name: development-client
+    build:
+      context: client
+      target: development
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+      - /app/node_modules
+    restart: always
+    environment:
+      REACT_APP_PROXY: http://development-server:5000
+    depends_on:
+      - development-server
+
+  development-server:
+    container_name: development-server
+    build:
+      context: server
+      target: development
+    ports:
+      - "5000:5000"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    restart: always
+    env_file:
+      - .env
+    environment: 
+      NODE_ENV: development
+      PG_HOST: development-database
+    depends_on:
+      - development-database
+
+  development-database:
+    container_name: development-database
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DATABASE}
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./database/pgdata/development:/var/lib/postgresql/data
+      - ./database/dump/${DUMP_FILE:-schema.sql}:/docker-entrypoint-initdb.d/dump.sql  
+
+  production-client:
+    container_name: production-client
+    build:
+      context: client
+      target: production
+    ports:
+      - "${CLIENT_PORT:-3000}:80"
+    volumes:
+      - ./client/nginx/nginx.conf:/etc/nginx/templates/default.conf.template
+    restart: always
+    environment:
+      REACT_APP_PROXY: http://production-server:5000
+    depends_on:
+      - production-server
+
+  production-server:
+    container_name: production-server
+    build:
+      context: server
+      target: production
+    ports:
+      - "${SERVER_PORT:-5000}:5000"
+    volumes:
+      - ./server:/app
+      - /app/node_modules
+    restart: always
+    env_file:
+      - .env
+    environment: 
+      NODE_ENV: production
+      PG_HOST: production-database
+    depends_on:
+      - production-database
+
+  production-database:
+    container_name: production-database
+    image: postgres:16-alpine
+    restart: always
+    environment:
+      POSTGRES_USER: ${PG_USER}
+      POSTGRES_PASSWORD: ${PG_PASSWORD}
+      POSTGRES_DB: ${PG_DATABASE}
+    ports:
+      - "${DATABASE_PORT:-5432}:5432"
+    volumes:
+      - ./database/pgdata/production:/var/lib/postgresql/data
+      - ./database/dump/${DUMP_FILE:-schema.sql}:/docker-entrypoint-initdb.d/dump.sql  

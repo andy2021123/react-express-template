@@ -1,0 +1,9 @@
+node_modules/
+build/
+
+.env
+
+pgdata/
+dump.sql
+development.sql
+production.sql
