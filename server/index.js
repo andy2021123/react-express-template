@@ -3,6 +3,7 @@ import morgan from 'morgan'
 import cookieparser from 'cookie-parser'
 import helmet from 'helmet'
 import router from './routes/index.js'
+import client from './client.js'
 import './scheduledJobs.js'
 
 // create app instance
@@ -20,8 +21,9 @@ app.use((err, req, res, next) => {
   res.status(500).send({message: 'Internal Error!'})
 })
 
-// routes
+// api routes
 app.use('/api', router)
+app.use('/', client)
 
 // start the app on designated port
 const port = process.env.PORT || 5000

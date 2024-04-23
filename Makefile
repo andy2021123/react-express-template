@@ -22,13 +22,12 @@ logs:
 	docker compose logs --follow --tail 10
 
 build:
-	docker compose build production-client
+	docker compose build production
 
 deploy:
-	docker compose up production-client -d
-	@echo client: http://localhost:$(CLIENT_PORT)
-	@echo server: http://localhost:$(SERVER_PORT)
-	@echo database: http://localhost:$(DATABASE_PORT)
+	docker compose up production -d
+	@echo listening at: http://localhost:$(PORT)
+	make logs
 
 dump:
 	docker exec -it $(environment)-database pg_dump -U $(PG_USER) $(PG_DATABASE) > database/dump/$(environment).sql

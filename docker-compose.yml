@@ -48,28 +48,27 @@ services:
       - ./database/pgdata/development:/var/lib/postgresql/data
       - ./database/dump/${DUMP_FILE:-schema.sql}:/docker-entrypoint-initdb.d/dump.sql  
 
-  production-client:
-    container_name: production-client
-    build:
-      context: client
-      target: production
-    ports:
-      - "${CLIENT_PORT:-3000}:80"
-    volumes:
-      - ./client/nginx/nginx.conf:/etc/nginx/templates/default.conf.template
-    restart: always
-    environment:
-      REACT_APP_PROXY: http://production-server:5000
-    depends_on:
-      - production-server
+  # production-client:
+  #   container_name: production-client
+  #   build:
+  #     context: client
+  #     target: production
+  #   ports:
+  #     - "${CLIENT_PORT:-3000}:80"
+  #   volumes:
+  #     - ./client/nginx/nginx.conf:/etc/nginx/templates/default.conf.template
+  #   restart: always
+  #   environment:
+  #     REACT_APP_PROXY: http://production-server:5000
+  #   depends_on:
+  #     - production-server
 
-  production-server:
-    container_name: production-server
+  production:
+    container_name: production
     build:
-      context: server
-      target: production
+      context: .
     ports:
-      - "${SERVER_PORT:-5000}:5000"
+      - "${CLIENT_PORT:-3000}:3000"
     volumes:
       - ./server:/app
       - /app/node_modules
@@ -78,6 +77,7 @@ services:
       - .env
     environment: 
       NODE_ENV: production
+      PORT: 3000
       PG_HOST: production-database
     depends_on:
       - production-database
