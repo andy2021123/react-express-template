@@ -26,7 +26,7 @@ build:
 
 deploy:
 	docker compose up production -d
-	@echo listening at: http://localhost:$(PORT)
+	@echo listening at: http://localhost:$(CLIENT_PORT)
 	make logs
 
 dump:
@@ -34,3 +34,8 @@ dump:
 
 psql:
 	docker exec -it $(environment)-database psql -U $(PG_USER) -d $(PG_DATABASE)
+
+pgadmin:
+	docker compose up pgadmin -d
+	@echo pgAdmin is running.
+	@echo     Local: http://localhost:8000

@@ -48,21 +48,6 @@ services:
       - ./database/pgdata/development:/var/lib/postgresql/data
       - ./database/dump/${DUMP_FILE:-schema.sql}:/docker-entrypoint-initdb.d/dump.sql  
 
-  # production-client:
-  #   container_name: production-client
-  #   build:
-  #     context: client
-  #     target: production
-  #   ports:
-  #     - "${CLIENT_PORT:-3000}:80"
-  #   volumes:
-  #     - ./client/nginx/nginx.conf:/etc/nginx/templates/default.conf.template
-  #   restart: always
-  #   environment:
-  #     REACT_APP_PROXY: http://production-server:5000
-  #   depends_on:
-  #     - production-server
-
   production:
     container_name: production
     build:
@@ -95,3 +80,15 @@ services:
     volumes:
       - ./database/pgdata/production:/var/lib/postgresql/data
       - ./database/dump/${DUMP_FILE:-schema.sql}:/docker-entrypoint-initdb.d/dump.sql  
+
+  pgadmin:
+    container_name: pgadmin4
+    image: dpage/pgadmin4
+    restart: unless-stopped
+    ports:
+      - "8000:80"
+    environment:
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - PGADMIN_DEFAULT_EMAIL=${PGADMIN_EMAIL}
+      - PGADMIN_DEFAULT_PASSWORD=${PGADMIN_PASSWORD}
+    hostname: pgadmin
