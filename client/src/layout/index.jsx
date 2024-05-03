@@ -3,7 +3,7 @@ import { Outlet } from "react-router-dom"
 
 export default function Layout() {
   return (
-    <Container maxWidth="lg">
+    <Container disableGutters maxWidth="lg" sx={{ p: 2 }}>
       <Outlet />
     </Container>
   )

@@ -4,7 +4,7 @@ import Home from "./Home"
 import NoPage from "./NoPage"
 import Data from "./Data"
 
-const AppRoutes = () => {
+export default function AppRoutes() {
   return (
     <BrowserRouter>
       <Routes>
@@ -17,5 +17,3 @@ const AppRoutes = () => {
     </BrowserRouter>
   )
 }
-
-export default AppRoutes
