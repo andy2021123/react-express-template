@@ -11,15 +11,14 @@ const __dirname = path.dirname(__filename) // get the name of the directory
 
 router.get('/', (req, res) => {
   const filePath = path.resolve(__dirname, dist, 'index.html')
-  console.log('test home page')
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
       console.log(err)
     } else {
       data = data
-        .replace(/__TITLE__/g, "Home Page")
-        .replace(/__DESCRIPTION__/g, "Home Page Description")
-        // .replace(/__IMAGE__/g, "/api/image")
+      .replace(/__TITLE__/g, "Home Page")
+      .replace(/__DESCRIPTION__/g, "Home Page Description")
+      .replace(/__IMAGE__/g, '/image.png')
 
       res.send(data)
     }
@@ -29,16 +28,17 @@ router.get('/', (req, res) => {
 router.use(express.static(path.resolve(__dirname, dist)))
 
 router.get('/data', (req, res) => {
-  const domain = `${req.protocol}://${req.get('host')}`
+  const domain = `${req.protocol}://${req.header('Host')}`
+
   const filePath = path.resolve(__dirname, dist, 'index.html')
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
       console.log(err)
     } else {
       data = data
-        .replace(/__TITLE__/g, "Data Page")
-        .replace(/__DESCRIPTION__/g, "Data Page Description")
-        .replace(/__IMAGE__/g, `${domain}/api/image`)
+      .replace(/__TITLE__/g, "Data Page")
+      .replace(/__DESCRIPTION__/g, "Data Page Description")
+      .replace(/__IMAGE__/g, `${domain}/api/image`)
 
       res.send(data)
     }
@@ -52,9 +52,9 @@ router.get('/*', (req, res) => {
       console.log(err)
     } else {
       data = data
-        .replace(/__TITLE__/g, "React-Express App")
-        .replace(/__DESCRIPTION__/g, "App Description")
-        // .replace(/__IMAGE__/g, "/api/image")
+      .replace(/__TITLE__/g, "React Express Template")
+      .replace(/__DESCRIPTION__/g, "App Description")
+      .replace(/__IMAGE__/g, '/image.png')
 
       res.send(data)
     }

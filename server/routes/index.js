@@ -1,8 +1,12 @@
 import express from 'express'
+import morgan from 'morgan'
 import fs from 'node:fs'
 import { getUsers } from '../database/users.js'
 
 const router = express.Router()
+
+// api only middleware
+router.use(morgan('dev'))
 
 // routes
 router.get('/hello', async (req, res) => {
@@ -16,8 +20,8 @@ router.get('/users', async (req, res) => { // demonstrate database usage
 })
 
 router.get('/image', async (req, res) => {
-  if (fs.existsSync(`images/bot.png`)) {
-    res.sendFile(`bot.png`, { root: './images' })
+  if (fs.existsSync(`images/pizza.png`)) {
+    res.sendFile(`pizza.png`, { root: './images' })
   } else {
     res.sendStatus(204)
   }

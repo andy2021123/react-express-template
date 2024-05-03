@@ -1,8 +1,8 @@
 import express from 'express'
-import morgan from 'morgan'
 import cookieparser from 'cookie-parser'
 import helmet from 'helmet'
 import router from './routes/index.js'
+import cors from 'cors'
 import client from './client.js'
 import './scheduledJobs.js'
 
@@ -10,9 +10,16 @@ import './scheduledJobs.js'
 const app = express()
 
 // middleware 
-app.use(helmet()) // provides useful security headers
+app.use(cors())
+app.use(
+  helmet({
+    contentSecurityPolicy: false,
+    crossOriginOpenerPolicy: false,
+    originAgentCluster: false,
+    strictTransportSecurity: false,
+  })
+)
 app.use(cookieparser())
-app.use(morgan('dev')) // console logs request information
 app.use(express.json()) 
 
 // basic error handling
@@ -21,9 +28,8 @@ app.use((err, req, res, next) => {
   res.status(500).send({message: 'Internal Error!'})
 })
 
-// api routes
-app.use('/api', router)
-app.use('/', client)
+app.use('/api', router) // api routes
+app.use('/', client) // client routes
 
 // start the app on designated port
 const port = process.env.PORT || 5000
