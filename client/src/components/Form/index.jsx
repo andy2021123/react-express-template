@@ -2,21 +2,29 @@ import { createContext, useContext } from 'react'
 import { useForm } from 'react-hook-form'
 import Box from '@mui/material/Box'
 import Grid from '@mui/material/Grid'
-import Button from './Button'
+import Submit from './Submit'
 import DynamicFields from './DynamicFields'
 import Input from './Input'
 import Select from './Select'
 
 const FormMethodsContext = createContext()
 
-function FormMethodsProvider({ defaultValues, children }) {
-  const contextValue = useForm({ defaultValues })
+function FormMethodsProvider({ formMethods, children }) {
+  if (formMethods?.handleSubmit) {
+    return (
+      <FormMethodsContext.Provider value={formMethods}>
+        {children}
+      </FormMethodsContext.Provider>
+    )
+  } else {
+    const defaultValue = useForm()
+    return (
+      <FormMethodsContext.Provider value={defaultValue}>
+        {children}
+      </FormMethodsContext.Provider>
+    )
+  }
 
-  return (
-    <FormMethodsContext.Provider value={contextValue}>
-      {children}
-    </FormMethodsContext.Provider>
-  )
 }
 
 function useFormMethods() {
@@ -39,12 +47,12 @@ function FormBox({ children, spacing, onSubmit, ...rest }) {
   )
 }
 
-function Form({ defaultValues, children, ...rest }) {
+function Form({ formMethods, children, onSubmit, ...rest }) {
   return (
-    <FormMethodsProvider defaultValues={defaultValues}>
-      <FormBox {...rest}>{children}</FormBox>
+    <FormMethodsProvider formMethods={formMethods}>
+      <FormBox onSubmit={onSubmit} {...rest}>{children}</FormBox>
     </FormMethodsProvider>
   )
 }
 
-export { useFormMethods, Form, Input, DynamicFields, Button, Select }
+export { useFormMethods, Form, Input, DynamicFields, Submit, Select }

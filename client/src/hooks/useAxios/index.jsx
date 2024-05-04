@@ -1,4 +1,5 @@
 import { useState, useRef, useEffect } from 'react'
+import useAxiosImage from './useAxiosImage';
 import api from './api'
 
 const useAxios = (url, method, payload) => {
@@ -33,4 +34,5 @@ const useAxios = (url, method, payload) => {
   return { cancel, data, error, loading }
 }
 
+export { useAxiosImage }
 export default useAxios
