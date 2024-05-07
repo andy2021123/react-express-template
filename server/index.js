@@ -28,6 +28,9 @@ app.use((err, req, res, next) => {
   res.status(500).send({message: 'Internal Error!'})
 })
 
+// scheduled jobs
+// app.use(job)
+
 app.use('/api', router) // api routes
 app.use('/', client) // client routes
 
