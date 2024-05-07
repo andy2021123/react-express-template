@@ -13,11 +13,14 @@ CREATE EXTENSION IF NOT EXISTS "uuid-ossp"; -- Ensure uuid-ossp extension is ava
 
 CREATE TABLE public.users (
   id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
-  username VARCHAR(50) NOT NULL,
-  email VARCHAR(100) NOT NULL
+  first VARCHAR(255) NOT NULL,
+  last VARCHAR(255) NOT NULL,
+  address1 VARCHAR(255) NOT NULL,
+  address2 VARCHAR(255),
+  ts TIMESTAMP NOT NULL DEFAULT (current_timestamp)
 );
 
 -- example values
-INSERT INTO public.users (id, username, email) VALUES
-(uuid_generate_v4(), 'user1', 'user1@example.com'),
-(uuid_generate_v4(), 'user2', 'user2@example.com');
+INSERT INTO public.users (first, last, address1, address2) VALUES
+('first1', 'last1', '101 example st', NULL),
+('first2', 'last2', '102 example st', 'apt 1');

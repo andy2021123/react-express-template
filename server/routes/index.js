@@ -1,7 +1,7 @@
 import express from 'express'
 import morgan from 'morgan'
 import fs from 'node:fs'
-import { getUsers } from '../database/users.js'
+import { User } from '../database/index.js'
 
 const router = express.Router()
 
@@ -14,9 +14,14 @@ router.get('/hello', async (req, res) => {
 })
 
 router.get('/users', async (req, res) => { // demonstrate database usage
-  const users = await getUsers()
+  const users = await User.selectAll()
   console.log(users)
   res.send(users)
+})
+
+router.post('/user', async ({ body }, res) => {
+  new User(body).insert()
+  res.sendStatus(201)
 })
 
 router.get('/image', async (req, res) => {
