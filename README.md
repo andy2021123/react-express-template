@@ -28,7 +28,7 @@ Copy the environment variables example file with `cp .env.example .env`. Fill wi
 
 `make logs` opens logs for all current running containers.
 
-`make build` builds the application for production. This can be used to rebuild the app when changes are made.
+`make update` rebuilds the production container for the app. This can be used to rebuild the app when changes are made.
 
 `make deploy` runs the app in production mode (and builds the app if not already done).
 
