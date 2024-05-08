@@ -1,5 +1,7 @@
 # Getting Started with react-express-template
 
+This is a template full-stack application with React.js as the frontend, Express.js as the backend, PostgreSQL as the database, and is containerized with Docker. 
+
 ## Dependencies
 
 ### Docker
