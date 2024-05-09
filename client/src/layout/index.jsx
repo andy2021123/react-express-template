@@ -39,10 +39,12 @@ export default function Layout() {
     <Box>
       <Box component="nav">
         <AppBar>
-          <Toolbar>
-            <Typography variant="h4" sx={{ flexGrow: 1 }}>React Express Template</Typography>
-            <NavBar/>
-          </Toolbar>
+          <Container disableGutters maxWidth="lg">
+            <Toolbar>
+              <Typography variant="h4" sx={{ flexGrow: 1 }}>React Express Template</Typography>
+              <NavBar/>
+            </Toolbar>
+          </Container>
         </AppBar>
       </Box>
       <Box component="main">
