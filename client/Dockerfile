@@ -1,4 +1,4 @@
-FROM node:21-alpine as base
+FROM node:current-alpine as base
 VOLUME [ "/app" ]
 WORKDIR /app
 COPY package*.json .

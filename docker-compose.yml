@@ -36,7 +36,7 @@ services:
 
   development-database:
     container_name: development-database
-    image: postgres:16-alpine
+    image: postgres:alpine
     restart: always
     environment:
       POSTGRES_USER: ${PG_USER}
@@ -69,7 +69,7 @@ services:
 
   production-database:
     container_name: production-database
-    image: postgres:16-alpine
+    image: postgres:alpine
     restart: always
     environment:
       POSTGRES_USER: ${PG_USER}
