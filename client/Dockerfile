@@ -1,8 +1,8 @@
-FROM node:current-alpine as base
-VOLUME [ "/app" ]
+FROM node:current-alpine
+VOLUME /app
 WORKDIR /app
-COPY package*.json .
-RUN npm install
 
-FROM base as development
+COPY --chmod=755 entrypoint.sh /entrypoint.sh
+
+ENTRYPOINT [ "/entrypoint.sh" ]
 CMD ["npm", "run", "dev"]

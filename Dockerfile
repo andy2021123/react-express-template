@@ -1,15 +1,15 @@
-FROM node:21-alpine
+FROM node:current-alpine AS build
 
-# CLIENT
-WORKDIR /
-COPY ./client ./client
-WORKDIR /client
+WORKDIR /app
+COPY ./client /app
 RUN npm install
 RUN npm run build
 
-# SERVER
+FROM node:current-alpine
+
 WORKDIR /app
-COPY ./server/package*.json .
+COPY ./server /app
 RUN npm install
+COPY --from=build /app/dist /app/dist
 
 CMD [ "npm", "start" ]

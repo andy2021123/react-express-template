@@ -3,12 +3,10 @@ services:
     container_name: development-client
     build:
       context: client
-      target: development
     ports:
       - "3000:3000"
     volumes:
       - ./client:/app
-      - /app/node_modules
     restart: always
     environment:
       REACT_APP_PROXY: http://development-server:5000
@@ -19,24 +17,31 @@ services:
     container_name: development-server
     build:
       context: server
-      target: development
     ports:
       - "5000:5000"
     volumes:
       - ./server:/app
-      - /app/node_modules
     restart: always
-    env_file:
-      - .env
     environment: 
       NODE_ENV: development
       PG_HOST: development-database
+      PG_USER: ${PG_USER}
+      PG_PASSWORD: ${PG_PASSWORD}
+      PG_DATABASE: ${PG_DATABASE}
     depends_on:
-      - development-database
+      development-database:
+        condition: service_healthy
+        restart: true
 
   development-database:
     container_name: development-database
     image: postgres:alpine
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USER} -d ${PG_DATABASE}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
     restart: always
     environment:
       POSTGRES_USER: ${PG_USER}
@@ -45,8 +50,7 @@ services:
     ports:
       - "5432:5432"
     volumes:
-      - ./database/pgdata/development:/var/lib/postgresql/data
-      - ./database/dump/${DUMP_FILE:-schema.sql}:/docker-entrypoint-initdb.d/dump.sql  
+      - ./data/development/pgdata:/var/lib/postgresql/data
 
   production:
     container_name: production
@@ -54,22 +58,30 @@ services:
       context: .
     ports:
       - "${CLIENT_PORT:-3000}:3000"
+    restart: unless-stopped
     volumes:
-      - ./server:/app
-      - /app/node_modules
-    restart: always
-    env_file:
-      - .env
+      - ./data/production:/app/data
     environment: 
       NODE_ENV: production
       PORT: 3000
       PG_HOST: production-database
+      PG_USER: ${PG_USER}
+      PG_PASSWORD: ${PG_PASSWORD}
+      PG_DATABASE: ${PG_DATABASE}
     depends_on:
-      - production-database
+      production-database:
+        condition: service_healthy
+        restart: true
 
   production-database:
     container_name: production-database
     image: postgres:alpine
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${PG_USER} -d ${PG_DATABASE}"]
+      interval: 10s
+      retries: 5
+      start_period: 30s
+      timeout: 10s
     restart: always
     environment:
       POSTGRES_USER: ${PG_USER}
@@ -78,8 +90,7 @@ services:
     ports:
       - "${DATABASE_PORT:-5432}:5432"
     volumes:
-      - ./database/pgdata/production:/var/lib/postgresql/data
-      - ./database/dump/${DUMP_FILE:-schema.sql}:/docker-entrypoint-initdb.d/dump.sql  
+      - ./data/production/pgdata/:/var/lib/postgresql/data
 
   pgadmin:
     container_name: pgadmin4

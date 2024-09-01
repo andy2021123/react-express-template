@@ -3,7 +3,7 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import fs from 'node:fs'
 
-const dist = process.env.DIST || '../client/dist'
+const dist = process.env.DIST || 'dist'
 const router = express.Router()
 
 const __filename = fileURLToPath(import.meta.url) // get the resolved path to the file

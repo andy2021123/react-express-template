@@ -10,7 +10,7 @@ PG_DATABASE ?= database
 
 environment := development
 
-.PHONY: up down logs update deploy dump psql setup
+.PHONY: up down logs build deploy dump psql setup
 
 up:
 	docker compose up development-client -d
@@ -22,7 +22,7 @@ down:
 logs:
 	docker compose logs --follow --tail 10
 
-update:
+build:
 	docker compose build production
 
 deploy:
