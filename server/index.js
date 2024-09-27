@@ -37,9 +37,10 @@ if (process.env.NODE_ENV == 'production') {
   app.use('/', client) // client routes
 }
 
+sequelize.sync()
+
 // start the app on designated port
-const port = process.env.PORT || 5000
+const port = process.env.PORT || 3000
 app.listen(port, () => {
   console.log(`Server is running on port ${port}`)
-  sequelize.sync()
 })

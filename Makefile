@@ -1,46 +1,35 @@
 ifneq ($(wildcard .env),) 
 	include .env
+	export
 endif
 
-CLIENT_PORT ?= 3000
-SERVER_PORT ?= 5000
-DATABASE_PORT ?= 5432
 PG_USER ?= postgres
 PG_DATABASE ?= database
-
-environment := development
 
 .PHONY: up down logs build deploy dump psql setup
 
 up:
-	docker compose up development-client -d
-	make logs
+	@docker compose -f docker-compose-dev.yml up -d
+	@make logs
 
 down:
-	docker compose down
+	@docker compose -f docker-compose-dev.yml down
+	@docker compose down
 
 logs:
-	docker compose logs --follow --tail 10
+	@docker compose -f docker-compose-dev.yml logs -f
+	@docker compose logs -f
 
 build:
-	docker compose build production
+	@docker compose build
 
 deploy:
-	docker compose up production -d
-	@echo listening at: http://localhost:$(CLIENT_PORT)
-	make logs
+	@docker compose up -d
+	@make logs
 
 dump:
-	docker exec -it $(environment)-database pg_dump -U $(PG_USER) $(PG_DATABASE) > database/dump/$(environment).sql
-
-psql:
-	docker exec -it $(environment)-database psql -U $(PG_USER) -d $(PG_DATABASE)
-
-pgadmin:
-	docker compose up pgadmin -d
-	@echo pgAdmin is running.
-	@echo     Local: http://localhost:8000
+	@docker exec -it database pg_dump -U $(PG_USER) $(PG_DATABASE) > data/dump.sql
 
 setup:
-	@chmod +x .setup/setup.sh
-	@./.setup/setup.sh
+	@chmod +x setup.sh
+	@./setup.sh

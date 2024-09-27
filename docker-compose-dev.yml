@@ -1,0 +1,22 @@
+services:
+  client:
+    build:
+      context: client
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./client:/app
+    restart: unless-stopped
+    environment:
+      PROXY: http://server:3000
+    depends_on:
+      - server
+
+  server:
+    build:
+      context: server
+    volumes:
+      - ./server:/app
+    restart: unless-stopped
+    environment: 
+      NODE_ENV: development
