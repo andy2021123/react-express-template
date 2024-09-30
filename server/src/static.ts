@@ -3,14 +3,14 @@ import path from "path"
 import { fileURLToPath } from "url"
 import fs from "node:fs"
 
-const dist = process.env.DIST || "dist"
+const publicPath = "public"
 const router = express.Router()
 
 const __filename = fileURLToPath(import.meta.url) // get the resolved path to the file
 const __dirname = path.dirname(__filename) // get the name of the directory
 
 router.get("/", (req: Request, res: Response) => {
-  const filePath = path.resolve(__dirname, dist, "index.html")
+  const filePath = path.resolve(__dirname, publicPath, "index.html")
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
       console.log(err)
@@ -25,12 +25,12 @@ router.get("/", (req: Request, res: Response) => {
   })
 })
 
-router.use(express.static(path.resolve(__dirname, dist)))
+router.use(express.static(path.resolve(__dirname, publicPath)))
 
 router.get("/data", (req: Request, res: Response) => {
   const domain = `${req.protocol}://${req.header("Host")}`
 
-  const filePath = path.resolve(__dirname, dist, "index.html")
+  const filePath = path.resolve(__dirname, publicPath, "index.html")
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
       console.log(err)
@@ -46,7 +46,7 @@ router.get("/data", (req: Request, res: Response) => {
 })
 
 router.get("/*", (req: Request, res: Response) => {
-  const filePath = path.resolve(__dirname, dist, "index.html")
+  const filePath = path.resolve(__dirname, publicPath, "index.html")
   fs.readFile(filePath, "utf8", (err, data) => {
     if (err) {
       console.log(err)

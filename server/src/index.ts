@@ -2,7 +2,7 @@ import express, { Request, Response, NextFunction } from "express"
 import helmet from "helmet"
 import cors from "cors"
 import router from "./routes"
-import client from "./client"
+import client from "./static"
 import sequelize from "database"
 import "./scheduledJobs"
 

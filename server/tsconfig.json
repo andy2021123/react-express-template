@@ -7,5 +7,6 @@
     "strict": true,
     "lib": ["ESNext", "DOM"],  // Ensure that ESNext and DOM are included in lib
     "baseUrl": "./src",
+    "outDir": "./dist"
   },
 }
