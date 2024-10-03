@@ -12,6 +12,6 @@ COPY ./server /app
 RUN npm install
 RUN npm run build
 
-COPY --from=front-build /app/dist /app/public
+COPY --from=front-build /app/dist /app/dist/public
 
 CMD [ "npm", "start" ]

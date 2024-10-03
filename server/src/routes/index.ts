@@ -1,7 +1,6 @@
 import express from "express"
-import { createUser, getUsers } from "handlers/user"
+import { createUser, getUsers } from "../handlers/user.js"
 import morgan from "morgan"
-import fs from "node:fs"
 
 const router = express.Router()
 

@@ -1,10 +1,11 @@
 import express, { Request, Response, NextFunction } from "express"
 import helmet from "helmet"
 import cors from "cors"
-import router from "./routes"
-import client from "./static"
-import sequelize from "database"
-import "./scheduledJobs"
+
+import router from "./routes/index.js"
+import sequelize from "./database/index.js"
+import client from "./static.js"
+import "./scheduledJobs.js"
 
 // create app instance
 const app = express()
@@ -29,9 +30,7 @@ app.use((err: any, req: Request, res: Response, next: NextFunction) => {
 // scheduled jobs
 
 app.use("/api", router) // api routes
-if (process.env.NODE_ENV == "production") {
-  app.use("/", client) // client routes
-}
+app.use("/", client) // client routes
 
 sequelize.sync()
 

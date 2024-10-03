@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import { User } from "models"
+import User from "../models/user.js"
 
 export async function getUsers(req: Request, res: Response) {
   const users = await User.findAll()
