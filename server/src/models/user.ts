@@ -1,8 +1,7 @@
-import { DataTypes, Model } from 'sequelize'
-import sequelize from './sequelize.js'
+import { DataTypes } from "sequelize"
+import sequelize from "../database/index.js"
 
-
-const User = sequelize.define('user', {
+const User = sequelize.define("user", {
   first: {
     type: DataTypes.STRING,
     allowNull: false,

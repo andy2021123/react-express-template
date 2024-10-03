@@ -1,29 +1,35 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "description": "",
-  "main": "index.js",
+  "main": "src/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node index.js",
-    "dev": "nodemon --legacy-watch server"
+    "build": "tsc",
+    "start": "node dist/index.js",
+    "dev": "nodemon --legacy-watch",
+    "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
   },
-  "type": "module",
-  "keywords": [],
   "author": "",
   "license": "ISC",
+  "description": "",
+  "type": "module",
   "dependencies": {
-    "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
     "cron": "^3.1.7",
-    "express": "^4.19.2",
-    "helmet": "^7.1.0",
+    "express": "^4.21.0",
+    "helmet": "^8.0.0",
     "morgan": "^1.10.0",
-    "nodemon": "^3.1.0",
-    "pg": "^8.12.0",
-    "pg-format": "^1.0.4",
-    "pg-hstore": "^2.3.4",
     "sequelize": "^6.37.3",
     "sqlite3": "^5.1.7"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/cron": "^2.0.1",
+    "@types/express": "^5.0.0",
+    "@types/helmet": "^0.0.48",
+    "@types/morgan": "^1.9.9",
+    "@types/sequelize": "^4.28.20",
+    "nodemon": "^3.1.7",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.2"
   }
 }
