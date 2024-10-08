@@ -1,8 +1,8 @@
-import axios from "axios"
+import axios from "axios";
 
 const api = axios.create({
-  baseURL: '/api'
-})
+  baseURL: "/api",
+});
 
 // jwt access and refresh token setup (optional)
 
@@ -19,7 +19,7 @@ const api = axios.create({
 // api.interceptors.response.use((response) => response,
 //   async (error) => {
 //     const originalRequest = error.config
-    
+
 //     if (error.response.status === 401 && !originalRequest._retry) {
 //       originalRequest._retry = true
 
@@ -41,4 +41,4 @@ const api = axios.create({
 //   }
 // )
 
-export default api
+export default api;

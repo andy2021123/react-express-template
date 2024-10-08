@@ -1,5 +1,16 @@
+
 import { createTheme, useMediaQuery } from "@mui/material"
 import { grey } from "@mui/material/colors"
+
+// Adds isMobile to theme
+declare module '@mui/material/styles' {
+  interface Theme {
+    isMobile: () => boolean
+  }
+  interface ThemeOptions {
+    isMobile?: () => boolean
+  }
+}
 
 const theme = () => {
   const defaultTheme = createTheme()
