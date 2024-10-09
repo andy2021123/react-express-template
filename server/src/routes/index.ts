@@ -1,6 +1,6 @@
 import express from "express";
-import { createUser, getUsers } from "handlers/user";
 import morgan from "morgan";
+import { createUser, getUsers } from "handlers/user";
 
 const router = express.Router();
 
@@ -8,7 +8,7 @@ const router = express.Router();
 router.use(morgan("dev"));
 
 // routes
-router.get("/hello", async (req, res) => {
+router.get("/hello", (req, res) => {
   res.send({ message: "hello world!" });
 });
 

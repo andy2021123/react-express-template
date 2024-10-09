@@ -5,7 +5,7 @@ import {
   useForm,
   UseFormReturn,
 } from "react-hook-form";
-import { Box, Grid2 as Grid } from "@mui/material";
+import { Box, BoxProps, Grid2 as Grid } from "@mui/material";
 import Submit from "./Submit";
 import DynamicFields from "./DynamicFields";
 import Input from "./Input";
@@ -19,11 +19,11 @@ function useFormMethods() {
   return useContext(FormMethodsContext);
 }
 
-type FormProps = {
+interface FormProps extends BoxProps<"form"> {
   spacing?: number;
   children: any;
   onSubmit: SubmitHandler<FieldValues>;
-};
+}
 
 const Form = <TFormValues extends FieldValues>({
   spacing,

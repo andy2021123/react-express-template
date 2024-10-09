@@ -1,9 +1,9 @@
 {
   "name": "server",
   "version": "1.0.0",
-  "main": "src/index.js",
+  "main": "src/index.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc && tsc-alias --resolve-full-paths",
     "start": "node dist/index.js",
     "dev": "nodemon --legacy-watch",
     "lint": "eslint . --ext .js,.jsx,.ts,.tsx"
@@ -11,7 +11,7 @@
   "author": "",
   "license": "ISC",
   "description": "",
-  "type": "module",
+  "type": "commonjs",
   "dependencies": {
     "cors": "^2.8.5",
     "cron": "^3.1.7",
@@ -29,6 +29,7 @@
     "@types/morgan": "^1.9.9",
     "@types/sequelize": "^4.28.20",
     "nodemon": "^3.1.7",
+    "tsc-alias": "^1.8.10",
     "tsx": "^4.19.1",
     "typescript": "^5.6.2"
   }
