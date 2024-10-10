@@ -29,7 +29,3 @@ deploy:
 
 dump:
 	@docker exec -it database pg_dump -U $(PG_USER) $(PG_DATABASE) > data/dump.sql
-
-setup:
-	@chmod +x setup.sh
-	@./setup.sh
