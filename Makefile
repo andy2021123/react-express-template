@@ -6,7 +6,7 @@ endif
 PG_USER ?= postgres
 PG_DATABASE ?= database
 
-.PHONY: up down logs build deploy dump psql setup
+.PHONY: up down logs build deploy dump
 
 up:
 	@docker compose -f docker-compose-dev.yml up -d
@@ -29,7 +29,3 @@ deploy:
 
 dump:
 	@docker exec -it database pg_dump -U $(PG_USER) $(PG_DATABASE) > data/dump.sql
-
-setup:
-	@chmod +x setup.sh
-	@./setup.sh
