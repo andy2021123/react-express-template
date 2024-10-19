@@ -9,11 +9,6 @@ export async function getUsers(req: Request, res: Response) {
 
 export async function createUser(req: Request, res: Response) {
   const { body } = req;
-  await User.create({
-    first: body.first,
-    last: body.last,
-    address1: body.address[0],
-    address2: body.address[1],
-  });
+  await User.create(body);
   res.sendStatus(201);
 }

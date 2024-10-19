@@ -1,10 +1,11 @@
 import { Paper } from "@mui/material";
 import Typography from "@mui/material/Typography";
+import api from "api";
 import Title from "components/Title";
-import useAxios from "hooks/useAxios";
+import useApi from "hooks/useApi";
 
 export default function Data() {
-  const { data, loading, error } = useAxios("/users", "get");
+  const { data, loading, error } = useApi(api.getUsers);
 
   return (
     <Paper sx={{ p: 2 }}>

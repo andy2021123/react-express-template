@@ -1,10 +1,10 @@
+import { AxiosResponse } from "axios";
 import { useState, useRef, useEffect } from "react";
-import useAxiosImage from "./useAxiosImage";
-import api from "./api";
-import { Method } from "axios";
 
-const useAxios = (url: string, method: Method, payload?: object) => {
-  const [data, setData] = useState<any | null>(null);
+type Request<T> = () => Promise<AxiosResponse<T>>;
+
+function useApi<T>(request: Request<T>) {
+  const [data, setData] = useState<T | null>(null);
   const [error, setError] = useState<string>("");
   const [loading, setLoading] = useState<boolean>(true);
   const controllerRef = useRef(new AbortController());
@@ -15,13 +15,7 @@ const useAxios = (url: string, method: Method, payload?: object) => {
   useEffect(() => {
     (async () => {
       try {
-        const response = await api.request({
-          data: payload,
-          signal: controllerRef.current.signal,
-          method,
-          url,
-        });
-
+        const response = await request();
         setData(response.data);
       } catch (error: any) {
         const message = error.response.data.message || error.message;
@@ -33,7 +27,6 @@ const useAxios = (url: string, method: Method, payload?: object) => {
   }, []);
 
   return { cancel, data, error, loading };
-};
+}
 
-export { useAxiosImage };
-export default useAxios;
+export default useApi;
